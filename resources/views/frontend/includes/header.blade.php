@@ -1,11 +1,14 @@
+
+{{-- @dd($getProduct) --}}
+
 <header class="header-section">
 		<div class="container">
 			<div class="header-top-wrapper">
 				<a href="{{url('/')}}" class="brand-logo-outer">
-					<img src="{{asset('frontend/assets/images/logo.png')}}" alt="Logo">
+					<img src="{{asset($getSetting->logo)}}" alt="Logo">
 				</a>
 				<div class="search-form-outer">
-					<form action="" method="GET" class="form-group search-form">
+					<form action="{{url('product/search')}}" method="GET" class="form-group search-form">
 						<input type="text" name="search" class="form-control" placeholder="Search for items...">
 						<button type="submit"><i class="fas fa-search"></i></button>
 					</form>
@@ -18,39 +21,48 @@
 						<div class="header-top-right-item-link">
 							<span class="icon-outer">
 								<i class="fas fa-cart-plus"></i>
-								<span class="count-number">1</span>
+								<span class="count-number">{{$addToCartCount}}</span>
 							</span>
 							Cart
 						</div>
 						<div class="cart-items-wrapper">
 							<div class="cart-items-outer">
-								<div class="cart-item-outer">
+                                @php
+                                    $CartTotal=0;
+                                @endphp
+                                @foreach ($getProduct as $getProduct )
+                                <div class="cart-item-outer">
 									<a href="#" class="cart-product-image">
-										<img src="{{asset('frontend/assets/images/product.png')}}" alt="product">
+										<img src="{{asset($getProduct->product->image)}}" alt="product">
 									</a>
 									<div class="cart-product-name-price">
 										<a href="#" class="product-name">
-											Test Product
+											{{$getProduct->product->name}}
 										</a>
 										<span class="product-price">
-											৳ 300
+											{{$getProduct->price}}
 										</span>
 									</div>
 									<div class="cart-item-delete">
-										<a href="#" class="delete-btn">
+										<a href="{{url('Product/cart/indexCartDelete',$getProduct->id)}}" class="delete-btn">
 											<i class="fas fa-trash-alt"></i>
 										</a>
 									</div>
 								</div>
+                                @php
+                                     $CartTotal=$CartTotal+$getProduct->price;
+                                @endphp
+                                @endforeach
+
 							</div>
 							<div class="shopping-cart-footer">
 								<div class="shopping-cart-total">
 									<h4>
-										Total <span>৳ 300</span>
+										Total <span>৳  {{$CartTotal}}</span>
 									</h4>
 								</div>
 								<div class="shopping-cart-button">
-									<a href="view-products.html" class="view-cart-link">View cart</a>
+									<a href="{{url('product/cart/view')}}" class="view-cart-link">View cart</a>
 									<a href="{{url('product/checkout')}}" class="checkout-link">Checkout</a>
 								</div>
 							</div>
@@ -70,19 +82,29 @@
 							</div>
 							<div class="header__category-items-outer">
 								<ul class="header__category-list">
+                                    @foreach ($category as $category )
 									<li class="header__category-list-item item-has-submenu">
-										<a href="category-product.html" class="header__category-list-item-link">
-											<img src="{{asset('frontend/assets/images/product.png')}}" alt="category">
-											Test Category
+										<a href="{{url('Category/product/'.$category->slug)}}" class="header__category-list-item-link">
+											<img  src="{{asset($category->image)}}" alt="category">
+
+                                            {{$category->name}}
+
 										</a>
 										<ul class="header__nav-item-category-submenu">
+                                                  @foreach ( $category->subCategory as $subCategory )
+
+
 											<li class="header__category-submenu-item">
-												<a href="sub-category-product.html" class="header__category-submenu-item-link">
-													Test Subcategory
+												<a href="{{url('frontend/subategory/product/'.$subCategory->slug)}}" class="header__category-submenu-item-link">
+
+                                                 {{$subCategory->name}}
+
 												</a>
 											</li>
+                                            @endforeach
 										</ul>
 									</li>
+                                    @endforeach
 								</ul>
 							</div>
 						</div>
@@ -112,5 +134,5 @@
 					</div>
 				</div>
 			</div>
-		</div>    
+		</div>
 	</header>

@@ -11,48 +11,78 @@
                                     <div class="product-images-slider-outer">
                                         <div class="slider slider-content">
                                             <div>
-                                                <img src="{{asset('frontend/assets/images/product.png')}}" alt="slider images">
+                                                <img src="{{asset($product->image)}}" alt="slider images">
                                             </div>
+                                            @foreach ( $product->galleryImage as $image )
+                                            <div>
+                                                <img src="{{asset($image->g_image)}}" alt="slider images">
+                                            </div>
+                                            @endforeach
                                         </div>
                                         <div class="slider slider-thumb">
                                             <div>
-                                                <img src="{{asset('frontend/assets/images/product.png')}}" alt="slider images">
+                                                <img src="{{asset($product->image)}}" alt="slider images">
                                             </div>
+                                            @foreach ( $product->galleryImage as $image )
+                                            <div>
+                                                <img src="{{asset($image->g_image)}}" alt="slider images">
+                                            </div>
+                                            @endforeach
+
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-lg-5 col-md-5">
                                     <div class="product-details-content">
                                         <h3 class="product-name">
-                                            Test Product
+                                          {{$product->name}}
                                         </h3>
-                                        <div class="product-price">
-                                            <span>300 Tk.</span>
-                                            <span class="" style="color: #f74b81;">
-                                                <del>400 Tk.</del>
-                                            </span>
+
                                         </div>
-                                        <div class="product-details-select-items-wrap">
-                                            <div class="product-details-select-item-outer">
-                                                <input type="radio" name="color" id="color" value="Red" class="category-item-radio">
-                                                <label for="color" class="category-item-label">
-                                                    Red
-                                                </label>
+                                        <form action="{{url('Product/cart/create/'.$product->id)}}" method="POST">
+
+                                         @csrf
+
+                                            <div class="product-price">
+
+                                               <span style="font-size: 30px;color:#38a538;
+                                               ">{{$product->regular_price}}</span>
+
+                                                <span class="" style="color: #f74b81;font-size: 30px">
+                                                    @if ($product->discount_price!=null)
+                                                    <del>{{$product->discount_price}}</del>
+                                                    @endif
+                                                </span>
                                             </div>
-                                        </div>
-                                        <div class="product-details-select-items-wrap">
-                                            <div class="product-details-select-item-outer">
-                                                <input type="radio" name="size" value="XXl" class="category-item-radio">
-                                                <label for="size" class="category-item-label">XXl</label>
+                                            <div class="product-details-select-items-wrap">
+                                                @foreach ( $product->color as $color )
+                                                <div class="product-details-select-item-outer">
+                                                    <input type="radio" name="color" id="color" value="{{$color->name}}" class="category-item-radio">
+                                                    <label for="color" class="category-item-label">
+                                                       {{$color->name}}
+                                                    </label>
+                                                </div>
+
+                                                @endforeach
+
                                             </div>
-                                        </div>
-                                        <form action="" method="POST">
+                                            <div class="product-details-select-items-wrap">
+                                                @foreach ($product->size as $size)
+                                                <div class="product-details-select-item-outer">
+                                                    <input type="radio" name="size" value="{{$size->name}}" class="category-item-radio">
+                                                    <label for="size" class="category-item-label">{{$size->name}}</label>
+                                                </div>
+                                                @endforeach
+
                                             <div class="purchase-info-outer">
+
+
+
                                                 <div class="product-incremnt-decrement-outer" style="display: block">
                                                     <a title="Decrement" class="decrement-btn" style="margin-top: -10px;">
                                                         <i class="fas fa-minus"></i>
                                                     </a>
-                                                    <input type="number" readonly name="qty" placeholder="Qty" value="1" min="1" id="qty" style="height: 35px">
+                                                    <input type="number" readonly name="quantity" placeholder="Qty" value="1" min="1" id="qty" style="height: 35px">
                                                     <a title="Increment" class="increment-btn" style="margin-top: -10px;">
                                                         <i class="fas fa-plus"></i>
                                                     </a>
@@ -96,7 +126,7 @@
                                 </ul>
                                 <div class="tab-content" id="pills-tabContent">
                                     <div class="tab-pane fade show active" id="pills-description" role="tabpanel" aria-labelledby="pills-description-tab">
-                                        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Officiis minus, ut unde laudantium accusamus odio nam officia aperiam excepturi quis nesciunt eveniet eligendi, corrupti voluptatibus. Similique doloremque velit optio aliquam.
+                                       {!!$product->long_desc!!}
                                     </div>
                                     <div class="tab-pane fade" id="pills-review" role="tabpanel" aria-labelledby="pills-review-tab">
                                         <div class="review-item-wrapper">
@@ -105,7 +135,7 @@
                                             </div>
                                             <div class="review-item-right">
                                                 <h4 class="review-author-name">
-                                                    Saidul Islam 
+                                                    Saidul Islam
                                                     <span class=" d-inline bg-danger badge-sm badge text-white">Verified</span>
                                                 </h4>
                                                 <p class="review-item-message">
@@ -121,9 +151,8 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="tab-pane fade" id="pills-policy" role="tabpanel" aria-labelledby="pills-policy-tab">
-                                        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Officiis minus,
-                                        ut unde laudantium accusamus odio nam officia aperiam excepturi quis nesciunt eveniet eligendi
+                                    <div class="tab-pane fade" id="pills-policy" role="tabpanel" aria-labelledby="pills-policy-tab" >
+                                     {!!$product->product_policy!!}
                                     </div>
                                 </div>
                             </div>
@@ -147,3 +176,24 @@
         </section>
 	</main>
 @endsection
+@push('script')
+<script>
+    var qtyInput=document.getElementById('qty');
+    var Increment=document.querySelector('.increment-btn');
+    var Decrement=document.querySelector('.decrement-btn');
+
+    Increment.addEventListener('click',function(){
+        if( qtyInput.value<5){
+            qtyInput.value=parseInt(qtyInput.value)+ 1;
+        }
+    })
+
+    Decrement.addEventListener('click',function(){
+        if(qtyInput.value>1){
+            qtyInput.value=parseInt(qtyInput.value)-1;
+        }
+    })
+
+
+</script>
+@endpush

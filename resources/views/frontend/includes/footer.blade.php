@@ -5,9 +5,9 @@
 					<img src="{{asset('frontend/assets/images/logo.png')}}" class="footer__brand-logo-inner" />
 				</a>
 			</div>
-		</div>    
+		</div>
 		<div class="footer__main-wrapper">
-			<div class="container">        
+			<div class="container">
 				<div class="row">
 					<div class="col-lg-3 col-md-6">
 						<div class="footer__item-wrap">
@@ -46,31 +46,31 @@
 							<ul class="footer__contact-info-list">
 								<li class="footer__contact-info-list-item">
 									<p class="footer__contact-info-list-item-label">
-										Address:                                   
+										Address:
 									</p>
 									<p class="footer__contact-info-list-item-value">
-										Uttara, Dhaka                                 
+                                        {{$getSetting->address}}
 									</p>
 								</li>
 								<li class="footer__contact-info-list-item">
 									<p class="footer__contact-info-list-item-label">
-										Phone:                                   
+										Phone:
 									</p>
 									<a href="tel:0123456857" class="footer__contact-info-list-item-value">
-										0123456857
+                                        {{$getSetting->phone}}
 									</a>
 								</li>
 								<li class="footer__contact-info-list-item">
 									<p class="footer__contact-info-list-item-label">
-										Email:                                   
+										Email:
 									</p>
 									<a href="mailto:info@gmail.com" class="footer__contact-info-list-item-value">
-										info@gmail.com
+                                        {{$getSetting->email}}
 									</a>
 								</li>
 							</ul>
 						</div>
-					</div>                
+					</div>
 					<div class="col-lg-3 col-md-6">
 						<div class="footer__item-wrap">
 							<h4 class="footer__item-title">
@@ -107,22 +107,22 @@
 							</h4>
 							<ul class="footer__social-list">
 								<li class="footer__social-list-item">
-									<a href="#" class="footer__social-list-item-lisk">
+									<a href="{{$getSetting->facebbok}}"target="_blank"  class="footer__social-list-item-lisk">
 										<i class="fab fa-facebook-f"></i>
 									</a>
 								</li>
 								<li class="footer__social-list-item">
-									<a href="#" class="footer__social-list-item-lisk">
+									<a href="{{$getSetting->twitter}}" target="_blank" class="footer__social-list-item-lisk">
 										<i class="fab fa-twitter"></i>
 									</a>
 								</li>
 								<li class="footer__social-list-item">
-									<a href="#" class="footer__social-list-item-lisk">
+									<a href="{{$getSetting->instragram}}" target="_blank" class="footer__social-list-item-lisk">
 										<i class="fab fa-instagram"></i>
 									</a>
 								</li>
 								<li class="footer__social-list-item">
-									<a href="#" class="footer__social-list-item-lisk">
+									<a href="{{$getSetting->youtube}}" target="_blank" class="footer__social-list-item-lisk">
 										<i class="fab fa-youtube"></i>
 									</a>
 								</li>

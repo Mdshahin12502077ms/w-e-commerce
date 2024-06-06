@@ -115,4 +115,10 @@ class CategoryController extends Controller
             abort(404);
         }
     }
+
+    public function category_product($slug){
+        $category_product=Category::where('slug',$slug)->with(['product'])->first();
+
+        return view('home.CategoryProduct',compact('category_product'));
+    }
 }

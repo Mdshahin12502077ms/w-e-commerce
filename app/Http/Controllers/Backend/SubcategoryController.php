@@ -102,5 +102,11 @@ public function update(Request $request,$id){
         abort(404);
     }
 }
+public function subcategory_product($slug){
+
+    $subcategory_product=Subcategory::where('slug',$slug)->with(['product'])->first();
+
+   return view('home.subCategory_product',compact('subcategory_product'));
+}
 
 }
